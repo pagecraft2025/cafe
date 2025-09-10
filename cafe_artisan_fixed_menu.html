@@ -1,0 +1,1304 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Café Artisan - Premium Coffee Experience</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Georgia, 'Times New Roman', Times, serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f8f5f2;
+        }
+
+        /* Simple loading screen */
+        .loading {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #f8f5f2;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            animation: fadeOut 2s forwards;
+        }
+
+        @keyframes fadeOut {
+            0% { opacity: 1; }
+            80% { opacity: 1; }
+            100% { opacity: 0; visibility: hidden; }
+        }
+
+        .loading.hidden {
+            display: none !important;
+        }
+
+        .coffee-loader {
+            text-align: center;
+        }
+
+        .coffee-cup {
+            font-size: 4rem;
+            color: #8B4513;
+            animation: bounce 1s infinite;
+        }
+
+        .loading-text {
+            font-size: 1.5rem;
+            color: #8B4513;
+            margin-top: 1rem;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        /* Mobile overlay */
+        .mobile-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(0, 0, 0, 0.95);
+            z-index: 10000;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: white;
+            padding: 20px;
+        }
+
+        .mobile-message h2 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: #d4a574;
+        }
+
+        .mobile-message p {
+            font-size: 0.9rem;
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+        }
+
+        @media (max-width: 768px) {
+            .mobile-overlay {
+                display: flex !important;
+            }
+        }
+
+        /* Header */
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: rgba(255, 255, 255, 0.95);
+            z-index: 1000;
+            padding: 1rem 0;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 2rem;
+        }
+
+        .logo {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #8B4513;
+            text-decoration: none;
+        }
+
+        .logo::after {
+            content: ' ☕';
+            color: #d4a574;
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-menu a {
+            text-decoration: none;
+            color: #333;
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            transition: color 0.3s ease;
+        }
+
+        .nav-menu a:hover {
+            color: #8B4513;
+        }
+
+        /* Hero Section */
+        .hero {
+            height: 100vh;
+            background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), #654321;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: white;
+            position: relative;
+        }
+
+        .hero-content h1 {
+            font-size: 4rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            animation: fadeInUp 1s ease forwards;
+        }
+
+        .hero-content p {
+            font-size: 1.4rem;
+            margin-bottom: 2rem;
+            animation: fadeInUp 1s ease 0.2s forwards;
+        }
+
+        .cta-button {
+            display: inline-block;
+            padding: 1rem 2rem;
+            background: #d4a574;
+            color: white;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            animation: fadeInUp 1s ease 0.4s forwards;
+        }
+
+        .cta-button:hover {
+            background: #8B4513;
+            transform: translateY(-2px);
+        }
+
+        .floating-bean {
+            position: absolute;
+            color: rgba(212, 165, 116, 0.3);
+            font-size: 2rem;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .floating-bean:nth-child(1) { top: 20%; left: 10%; }
+        .floating-bean:nth-child(2) { top: 60%; left: 85%; animation-delay: 2s; }
+        .floating-bean:nth-child(3) { top: 80%; left: 15%; animation-delay: 4s; }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(50px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(180deg); }
+        }
+
+        /* STATIC SECTIONS */
+        .section {
+            padding: 6rem 2rem;
+            opacity: 1 !important;
+            visibility: visible !important;
+            transform: none !important;
+        }
+
+        .section-container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        /* About Section */
+        .about {
+            background: #f8f5f2;
+        }
+
+        .about-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .about h2 {
+            font-size: 3rem;
+            color: #8B4513;
+            margin-bottom: 2rem;
+        }
+
+        .about p {
+            font-size: 1.2rem;
+            line-height: 1.8;
+            margin-bottom: 1.5rem;
+            color: #666;
+        }
+
+        .about-image {
+            height: 500px;
+            border-radius: 20px;
+            overflow: hidden;
+            background-image: url('https://images.unsplash.com/photo-1554118811-1e0d58224f24?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80');
+            background-size: cover;
+            background-position: center;
+            position: relative;
+        }
+
+        .about-image::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(139, 69, 19, 0.1);
+        }
+
+        /* FIXED CSS-ONLY MENU SECTION */
+        .menu {
+            background: white;
+            min-height: 800px;
+        }
+
+        .menu h2 {
+            font-size: 3rem;
+            color: #8B4513;
+            margin-bottom: 3rem;
+            text-align: center;
+        }
+
+        /* Menu container - proper structure for CSS-only tabs */
+        .menu-container {
+            position: relative;
+        }
+
+        /* Hide radio buttons but keep them functional */
+        .menu-container input[type="radio"] {
+            position: absolute;
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        /* Tab labels styled as buttons */
+        .menu-tabs {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            justify-content: center;
+            margin: 2rem 0 3rem;
+        }
+
+        .tab-label {
+            display: inline-block;
+            padding: 1rem 2rem;
+            border: 2px solid #d4a574;
+            border-radius: 50px;
+            color: #8B4513;
+            background: transparent;
+            font-weight: 600;
+            cursor: pointer;
+            user-select: none;
+            transition: all 0.3s ease;
+            font-family: Georgia, serif;
+            font-size: 1rem;
+        }
+
+        .tab-label:hover {
+            background: #d4a574;
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        /* Active tab styles using adjacent sibling combinator */
+        input[id="coffee"]:checked + label,
+        input[id="tea"]:checked + label,
+        input[id="food"]:checked + label,
+        input[id="desserts"]:checked + label {
+            background: #8B4513 !important;
+            color: white !important;
+            border-color: #8B4513 !important;
+            box-shadow: 0 4px 15px rgba(139, 69, 19, 0.3) !important;
+        }
+
+        /* Menu content panels */
+        .menu-content {
+            margin-top: 2rem;
+        }
+
+        .menu-panel {
+            display: none;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        /* Show panels when corresponding radio is checked */
+        input[id="coffee"]:checked ~ .menu-content .coffee-panel,
+        input[id="tea"]:checked ~ .menu-content .tea-panel,
+        input[id="food"]:checked ~ .menu-content .food-panel,
+        input[id="desserts"]:checked ~ .menu-content .desserts-panel {
+            display: block !important;
+            opacity: 1 !important;
+        }
+
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+        }
+
+        .menu-item {
+            background: #f8f5f2;
+            padding: 2rem;
+            border-radius: 15px;
+            border: 1px solid #e0e0e0;
+            transition: all 0.3s ease;
+            text-align: left;
+        }
+
+        .menu-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .menu-item-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 1rem;
+        }
+
+        .menu-item h3 {
+            font-size: 1.4rem;
+            color: #8B4513;
+            margin-bottom: 0.5rem;
+        }
+
+        .menu-item .price {
+            font-weight: 600;
+            color: #d4a574;
+            font-size: 1.2rem;
+        }
+
+        .menu-item p {
+            color: #666;
+            line-height: 1.6;
+        }
+
+        /* Gallery Section */
+        .gallery {
+            background: #f8f5f2;
+        }
+
+        .gallery h2 {
+            font-size: 3rem;
+            color: #8B4513;
+            margin-bottom: 3rem;
+            text-align: center;
+        }
+
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .gallery-item {
+            height: 300px;
+            border-radius: 15px;
+            overflow: hidden;
+            position: relative;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background-size: cover;
+            background-position: center;
+        }
+
+        .gallery-item:hover {
+            transform: scale(1.05);
+        }
+
+        .gallery-item::before {
+            content: attr(data-title);
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(transparent, rgba(0, 0, 0, 0.8));
+            color: white;
+            padding: 2rem 1rem 1rem;
+            font-size: 1.2rem;
+            font-weight: 600;
+            text-align: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .gallery-item:hover::before {
+            opacity: 1;
+        }
+
+        /* Real cafe images for gallery */
+        .gallery-item:nth-child(1) {
+            background-image: url('https://images.unsplash.com/photo-1442512595331-e89e73853f31?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80');
+        }
+
+        .gallery-item:nth-child(2) {
+            background-image: url('https://images.unsplash.com/photo-1497636577773-f1231844b336?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80');
+        }
+
+        .gallery-item:nth-child(3) {
+            background-image: url('https://images.unsplash.com/photo-1509042239860-f550ce710b93?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80');
+        }
+
+        .gallery-item:nth-child(4) {
+            background-image: url('https://images.unsplash.com/photo-1559056199-641a0ac8b55e?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80');
+        }
+
+        .gallery-item:nth-child(5) {
+            background-image: url('https://images.unsplash.com/photo-1545665225-b23b99e4d45e?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80');
+        }
+
+        .gallery-item:nth-child(6) {
+            background-image: url('https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80');
+        }
+
+        /* Contact Section */
+        .contact {
+            background: white;
+        }
+
+        .contact h2 {
+            font-size: 3rem;
+            color: #8B4513;
+            margin-bottom: 2rem;
+        }
+
+        .contact-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .contact-item .icon {
+            font-size: 1.5rem;
+            color: #d4a574;
+            width: 30px;
+        }
+
+        .contact-item strong {
+            display: block;
+            color: #8B4513;
+            margin-bottom: 0.5rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: 500;
+            color: #8B4513;
+            margin-bottom: 0.5rem;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 1rem;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-family: inherit;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #d4a574;
+        }
+
+        .submit-btn {
+            padding: 1rem 2rem;
+            background: #d4a574;
+            color: white;
+            border: none;
+            border-radius: 50px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .submit-btn:hover {
+            background: #8B4513;
+        }
+
+        /* Footer */
+        .footer {
+            background: #2c1810;
+            color: white;
+            padding: 4rem 2rem 2rem;
+        }
+
+        .footer-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 3rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: #d4a574;
+        }
+
+        .footer p,
+        .footer a {
+            color: #ccc;
+            text-decoration: none;
+            line-height: 1.8;
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+
+        .footer a:hover {
+            color: #d4a574;
+        }
+
+        .social-icons {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .social-icons a {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background: #d4a574;
+            border-radius: 50%;
+            transition: all 0.3s ease;
+        }
+
+        .social-icons a:hover {
+            background: white;
+            color: #8B4513;
+        }
+
+        .footer-bottom {
+            border-top: 1px solid #444;
+            padding-top: 2rem;
+            text-align: center;
+            color: #999;
+        }
+
+        .newsletter-form {
+            margin-top: 1rem;
+        }
+
+        .newsletter-form input {
+            padding: 0.5rem;
+            border: none;
+            border-radius: 5px;
+            margin-right: 0.5rem;
+            width: 200px;
+        }
+
+        .newsletter-form button {
+            padding: 0.5rem 1rem;
+            background: #d4a574;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .about-container,
+            .contact-container {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .hero-content h1 {
+                font-size: 2.5rem;
+            }
+
+            .nav-menu {
+                display: none;
+            }
+
+            .section {
+                padding: 3rem 1rem;
+            }
+
+            .tab-label {
+                width: calc(50% - 0.5rem);
+                text-align: center;
+            }
+        }
+
+        /* Notification */
+        .notification {
+            position: fixed;
+            top: 100px;
+            right: 20px;
+            background: #d4a574;
+            color: white;
+            padding: 1rem 1.5rem;
+            border-radius: 10px;
+            transform: translateX(400px);
+            transition: transform 0.3s ease;
+            z-index: 1001;
+        }
+
+        .notification.show {
+            transform: translateX(0);
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Loading Screen -->
+    <div class="loading" id="loading">
+        <div class="coffee-loader">
+            <div class="coffee-cup">☕</div>
+            <div class="loading-text">Brewing Excellence...</div>
+        </div>
+    </div>
+
+    <!-- Mobile Overlay -->
+    <div class="mobile-overlay" id="mobileOverlay">
+        <div class="mobile-message">
+            <div style="font-size: 3rem; color: #d4a574; margin-bottom: 1rem;">🖥️</div>
+            <h2>Desktop Experience Required</h2>
+            <p>This café website is designed for desktop viewing to provide you with the best experience.</p>
+            <p>Please visit us on a desktop or laptop computer to explore our full menu and ambiance.</p>
+            <p><strong>Thank you for understanding!</strong></p>
+        </div>
+    </div>
+
+    <!-- Header -->
+    <header class="header" id="header">
+        <div class="nav-container">
+            <a href="#home" class="logo">Café Artisan</a>
+            <nav>
+                <ul class="nav-menu">
+                    <li><a href="#home">Home</a></li>
+                    <li><a href="#about">About</a></li>
+                    <li><a href="#menu">Menu</a></li>
+                    <li><a href="#gallery">Gallery</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="floating-bean">☕</div>
+        <div class="floating-bean">☕</div>
+        <div class="floating-bean">☕</div>
+        <div class="hero-content">
+            <h1>Welcome to Café Artisan</h1>
+            <p>Where every cup tells a story of passion, quality, and craftsmanship</p>
+            <a href="#menu" class="cta-button">Explore Our Menu</a>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section class="about section" id="about">
+        <div class="section-container">
+            <div class="about-container">
+                <div>
+                    <h2>Our Story</h2>
+                    <p>Founded in 2015, Café Artisan has been serving the finest artisanal coffee to our community. We believe that great coffee is more than just a beverage – it's a moment of connection, a pause in your busy day, and a celebration of craftsmanship.</p>
+                    <p>Our expert baristas source the highest quality beans from sustainable farms around the world, roasting them to perfection right here in our café. Every cup is carefully crafted to deliver an exceptional experience that awakens your senses.</p>
+                    <p>Step into our warm, inviting space and discover why coffee lovers from across the city choose Café Artisan as their daily ritual. From our signature espresso blends to our seasonal specialties, every drink is prepared with meticulous attention to detail.</p>
+                    <p>We take pride in creating not just coffee, but memories that last a lifetime. Our commitment to quality, community, and sustainability drives everything we do.</p>
+                </div>
+                <div class="about-image"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FIXED CSS-ONLY MENU SECTION -->
+    <section class="menu section" id="menu">
+        <div class="section-container">
+            <h2>Our Menu</h2>
+
+            <div class="menu-container">
+                <!-- Radio buttons (hidden but functional) -->
+                <input type="radio" id="coffee" name="menu-tab" checked>
+                <label for="coffee" class="tab-label">☕ Coffee</label>
+
+                <input type="radio" id="tea" name="menu-tab">
+                <label for="tea" class="tab-label">🍵 Tea & Others</label>
+
+                <input type="radio" id="food" name="menu-tab">
+                <label for="food" class="tab-label">🍽️ Food</label>
+
+                <input type="radio" id="desserts" name="menu-tab">
+                <label for="desserts" class="tab-label">🍰 Desserts</label>
+
+                <!-- Menu content panels -->
+                <div class="menu-content">
+                    <!-- Coffee Panel -->
+                    <div class="menu-panel coffee-panel">
+                        <div class="menu-grid">
+                            <div class="menu-item">
+                                <div class="menu-item-header">
+                                    <div>
+                                        <h3>Signature Espresso</h3>
+                                        <p>Rich, full-bodied espresso with chocolate undertones and perfect crema</p>
+                                    </div>
+                                    <span class="price">₹280</span>
+                                </div>
+                            </div>
+                            <div class="menu-item">
+                                <div class="menu-item-header">
+                                    <div>
+                                        <h3>Artisan Latte</h3>
+                                        <p>Perfectly steamed milk with our signature espresso blend and beautiful latte art</p>
+                                    </div>
+                                    <span class="price">₹380</span>
+                                </div>
+                            </div>
+                            <div class="menu-item">
+                                <div class="menu-item-header">
+                                    <div>
+                                        <h3>Caramel Macchiato</h3>
+                                        <p>Vanilla syrup, steamed milk, espresso, and rich caramel drizzle</p>
+                                    </div>
+                                    <span class="price">₹420</span>
+                                </div>
+                            </div>
+                            <div class="menu-item">
+                                <div class="menu-item-header">
+                                    <div>
+                                        <h3>Cold Brew Supreme</h3>
+                                        <p>Smooth, refreshing cold brew served over ice with optional cream</p>
+                                    </div>
+                                    <span class="price">₹340</span>
+                                </div>
+                            </div>
+                            <div class="menu-item">
+                                <div class="menu-item-header">
+                                    <div>
+                                        <h3>Mocha Delight</h3>
+                                        <p>Rich Belgian chocolate and espresso topped with fresh whipped cream</p>
+                                    </div>
+                                    <span class="price">₹440</span>
+                                </div>
+                            </div>
+                            <div class="menu-item">
+                                <div class="menu-item-header">
+                                    <div>
+                                        <h3>Cappuccino Classic</h3>
+                                        <p>Traditional Italian cappuccino with perfect microfoam and cocoa dusting</p>
+                                    </div>
+                                    <span class="price">₹360</span>
+                                </div>
+                            </div>
+                            <div class="menu-item">
+                                <div class="menu-item-header">
+                                    <div>
+                                        <h3>Americano</h3>
+                                        <p>Bold espresso shots with hot water for a clean, strong coffee experience</p>
+                                    </div>
+                                    <span class="price">₹260</span>
+                                </div>
+                            </div>
+                            <div class="menu-item">
+                                <div class="menu-item-header">
+                                    <div>
+                                        <h3>Flat White</h3>
+                                        <p>Double shot espresso with perfectly textured milk, Australian style</p>
+                                    </div>
+                                    <span class="price">₹395</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Tea Panel -->
+                    <div class="menu-panel tea-panel">
+                        <div class="menu-grid">
+                            <div class="menu-item">
+                                <div class="menu-item-header">
+                                    <div>
+                                        <h3>Earl Grey Premium</h3>
+                                        <p>Classic bergamot-infused black tea blend with cornflower petals</p>
+                                    </div>
+                                    <span class="price">₹260</span>
+                                </div>
+                            </div>
+                            <div class="menu-item">
+                                <div class="menu-item-header">
+                                    <div>
+                                        <h3>Green Tea Matcha</h3>
+                                        <p>Ceremonial grade matcha powder whisked to perfection with steamed milk</p>
+                                    </div>
+                                    <span class="price">₹360</span>
+                                </div>
+                            </div>
+                            <div class="menu-item">
+                                <div class="menu-item-header">
+                                    <div>
+                                        <h3>Chamomile Dreams</h3>
+                                        <p>Soothing herbal blend perfect for relaxation, naturally caffeine-free</p>
+                                    </div>
+                                    <span class="price">₹300</span>
+                                </div>
+                            </div>
+                            <div class="menu-item">
+                                <div class="menu-item-header">
+                                    <div>
+                                        <h3>Chai Spice Latte</h3>
+                                        <p>Aromatic blend of cinnamon, cardamom, and ginger with steamed milk</p>
+                                    </div>
+                                    <span class="price">₹340</span>
+                                </div>
+                            </div>
+                            <div class="menu-item">
+                                <div class="menu-item-header">
+                                    <div>
+                                        <h3>Fresh Hot Chocolate</h3>
+                                        <p>Rich Belgian chocolate with steamed milk and fresh whipped cream</p>
+                                    </div>
+                                    <span class="price">₹320</span>
+                                </div>
+                            </div>
+                            <div class="menu-item">
+                                <div class="menu-item-header">
+                                    <div>
+                                        <h3>Iced Fruit Tea</h3>
+                                        <p>Refreshing blend of seasonal fruits and premium black tea, served cold</p>
+                                    </div>
+                                    <span class="price">₹315</span>
+                                </div>
+                            </div>
+                            <div class="menu-item">
+                                <div class="menu-item-header">
+                                    <div>
+                                        <h3>Jasmine Phoenix Pearls</h3>
+                                        <p>Hand-rolled green tea pearls with delicate jasmine flowers</p>
+                                    </div>
+                                    <span class="price">₹380</span>
+                                </div>
+                            </div>
+                            <div class="menu-item">
+                                <div class="menu-item-header">
+                                    <div>
+                                        <h3>Rooibos Vanilla</h3>
+                                        <p>Naturally sweet South African red bush tea with vanilla notes</p>
+                                    </div>
+                                    <span class="price">₹280</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Food Panel -->
+                    <div class="menu-panel food-panel">
+                        <div class="menu-grid">
+                            <div class="menu-item">
+                                <div class="menu-item-header">
+                                    <div>
+                                        <h3>Artisan Croissant</h3>
+                                        <p>Buttery, flaky French pastry baked fresh daily with premium butter</p>
+                                    </div>
+                                    <span class="price">₹280</span>
+                                </div>
+                            </div>
+                            <div class="menu-item">
+                                <div class="menu-item-header">
+                                    <div>
+                                        <h3>Avocado Toast</h3>
+                                        <p>Fresh sourdough bread topped with smashed avocado, cherry tomatoes, and herbs</p>
+                                    </div>
+                                    <span class="price">₹715</span>
+                                </div>
+                            </div>
+                            <div class="menu-item">
+                                <div class="menu-item-header">
+                                    <div>
+                                        <h3>Breakfast Sandwich</h3>
+                                        <p>Free-range eggs, aged cheese, and crispy bacon on toasted English muffin</p>
+                                    </div>
+                                    <span class="price">₹600</span>
+                                </div>
+                            </div>
+                            <div class="menu-item">
+                                <div class="menu-item-header">
+                                    <div>
+                                        <h3>Quinoa Salad Bowl</h3>
+                                        <p>Fresh vegetables, quinoa, mixed greens with house-made citrus dressing</p>
+                                    </div>
+                                    <span class="price">₹780</span>
+                                </div>
+                            </div>
+                            <div class="menu-item">
+                                <div class="menu-item-header">
+                                    <div>
+                                        <h3>Grilled Panini</h3>
+                                        <p>Roasted turkey, Swiss cheese, and basil pesto on fresh ciabatta bread</p>
+                                    </div>
+                                    <span class="price">₹660</span>
+                                </div>
+                            </div>
+                            <div class="menu-item">
+                                <div class="menu-item-header">
+                                    <div>
+                                        <h3>Soup of the Day</h3>
+                                        <p>Chef's daily creation served with warm artisan bread and butter</p>
+                                    </div>
+                                    <span class="price">₹520</span>
+                                </div>
+                            </div>
+                            <div class="menu-item">
+                                <div class="menu-item-header">
+                                    <div>
+                                        <h3>Mediterranean Wrap</h3>
+                                        <p>Hummus, grilled vegetables, feta cheese, and olives in spinach tortilla</p>
+                                    </div>
+                                    <span class="price">₹635</span>
+                                </div>
+                            </div>
+                            <div class="menu-item">
+                                <div class="menu-item-header">
+                                    <div>
+                                        <h3>Smoked Salmon Bagel</h3>
+                                        <p>Fresh bagel with cream cheese, smoked salmon, capers, and red onion</p>
+                                    </div>
+                                    <span class="price">₹840</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Desserts Panel -->
+                    <div class="menu-panel desserts-panel">
+                        <div class="menu-grid">
+                            <div class="menu-item">
+                                <div class="menu-item-header">
+                                    <div>
+                                        <h3>Chocolate Lava Cake</h3>
+                                        <p>Warm chocolate cake with molten center, served with vanilla ice cream</p>
+                                    </div>
+                                    <span class="price">₹555</span>
+                                </div>
+                            </div>
+                            <div class="menu-item">
+                                <div class="menu-item-header">
+                                    <div>
+                                        <h3>New York Cheesecake</h3>
+                                        <p>Creamy classic cheesecake with seasonal berry compote</p>
+                                    </div>
+                                    <span class="price">₹460</span>
+                                </div>
+                            </div>
+                            <div class="menu-item">
+                                <div class="menu-item-header">
+                                    <div>
+                                        <h3>Tiramisu</h3>
+                                        <p>Classic Italian dessert with coffee-soaked ladyfingers and mascarpone</p>
+                                    </div>
+                                    <span class="price">₹500</span>
+                                </div>
+                            </div>
+                            <div class="menu-item">
+                                <div class="menu-item-header">
+                                    <div>
+                                        <h3>Fresh Fruit Tart</h3>
+                                        <p>Seasonal fruits on vanilla pastry cream in buttery tart shell</p>
+                                    </div>
+                                    <span class="price">₹440</span>
+                                </div>
+                            </div>
+                            <div class="menu-item">
+                                <div class="menu-item-header">
+                                    <div>
+                                        <h3>Double Chocolate Brownie</h3>
+                                        <p>Rich fudge brownie topped with chocolate ganache and nuts</p>
+                                    </div>
+                                    <span class="price">₹395</span>
+                                </div>
+                            </div>
+                            <div class="menu-item">
+                                <div class="menu-item-header">
+                                    <div>
+                                        <h3>Crème Brûlée</h3>
+                                        <p>Vanilla custard with caramelized sugar top, made fresh daily</p>
+                                    </div>
+                                    <span class="price">₹520</span>
+                                </div>
+                            </div>
+                            <div class="menu-item">
+                                <div class="menu-item-header">
+                                    <div>
+                                        <h3>Apple Cinnamon Scone</h3>
+                                        <p>Fresh baked scone with apples, cinnamon, and sweet glaze</p>
+                                    </div>
+                                    <span class="price">₹315</span>
+                                </div>
+                            </div>
+                            <div class="menu-item">
+                                <div class="menu-item-header">
+                                    <div>
+                                        <h3>Gelato Trio</h3>
+                                        <p>Three scoops of artisan gelato: vanilla, chocolate, and seasonal flavor</p>
+                                    </div>
+                                    <span class="price">₹580</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Gallery Section -->
+    <section class="gallery section" id="gallery">
+        <div class="section-container">
+            <h2>Our Café</h2>
+            <p style="text-align: center; font-size: 1.2rem; color: #666; margin-bottom: 3rem;">Step inside our warm and inviting space, where every corner tells a story of coffee craftsmanship</p>
+            <div class="gallery-grid">
+                <div class="gallery-item" data-title="Cozy Interior" onclick="showNotification('Our warm and welcoming café atmosphere')"></div>
+                <div class="gallery-item" data-title="Perfect Latte Art" onclick="showNotification('Beautiful latte art created by our skilled baristas')"></div>
+                <div class="gallery-item" data-title="Coffee Beans" onclick="showNotification('Premium coffee beans roasted to perfection')"></div>
+                <div class="gallery-item" data-title="Comfortable Seating" onclick="showNotification('Relax in our comfortable seating areas')"></div>
+                <div class="gallery-item" data-title="Barista at Work" onclick="showNotification('Watch our skilled baristas craft your perfect cup')"></div>
+                <div class="gallery-item" data-title="Community Space" onclick="showNotification('A place where coffee lovers gather and connect')"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="contact section" id="contact">
+        <div class="section-container">
+            <div class="contact-container">
+                <div class="contact-info">
+                    <h2>Visit Us Today</h2>
+                    <p style="font-size: 1.1rem; color: #666; margin-bottom: 2rem;">We'd love to welcome you to our café family. Come experience the perfect blend of great coffee and warm hospitality.</p>
+
+                    <div class="contact-item">
+                        <div class="icon">📍</div>
+                        <div>
+                            <strong>Address</strong>
+                            123 Coffee Street, Downtown<br>
+                            City Center, State 12345
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <div class="icon">📞</div>
+                        <div>
+                            <strong>Phone</strong>
+                            (555) 123-CAFÉ (2233)
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <div class="icon">✉️</div>
+                        <div>
+                            <strong>Email</strong>
+                            hello@cafeartisan.com
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <div class="icon">🕒</div>
+                        <div>
+                            <strong>Hours</strong>
+                            Monday - Friday: 6:00 AM - 8:00 PM<br>
+                            Saturday - Sunday: 7:00 AM - 9:00 PM<br>
+                            <em>Extended hours during holidays</em>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="contact-form">
+                    <h2>Get In Touch</h2>
+                    <p style="color: #666; margin-bottom: 1.5rem;">Have a question, suggestion, or want to book a private event? We'd love to hear from you!</p>
+                    <form id="contactForm">
+                        <div class="form-group">
+                            <label for="name">Name *</label>
+                            <input type="text" id="name" name="name" required placeholder="Your full name">
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email *</label>
+                            <input type="email" id="email" name="email" required placeholder="your.email@example.com">
+                        </div>
+                        <div class="form-group">
+                            <label for="subject">Subject *</label>
+                            <input type="text" id="subject" name="subject" required placeholder="What is this regarding?">
+                        </div>
+                        <div class="form-group">
+                            <label for="message">Message *</label>
+                            <textarea id="message" name="message" rows="5" required placeholder="Tell us more about how we can help you..."></textarea>
+                        </div>
+                        <button type="submit" class="submit-btn">Send Message</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>Café Artisan</h3>
+                <p>Crafting exceptional coffee experiences since 2015. Every cup is a work of art, every visit a memorable moment.</p>
+                <p>Join our community of coffee lovers and discover what makes our café so special.</p>
+                <div class="social-icons">
+                    <a href="#" title="Facebook">📘</a>
+                    <a href="#" title="Instagram">📷</a>
+                    <a href="#" title="Twitter">🐦</a>
+                    <a href="#" title="YouTube">📺</a>
+                </div>
+            </div>
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <a href="#home">Home</a>
+                <a href="#about">About Us</a>
+                <a href="#menu">Our Menu</a>
+                <a href="#gallery">Gallery</a>
+                <a href="#contact">Contact</a>
+                <a href="#">Careers</a>
+                <a href="#">Press</a>
+            </div>
+            <div class="footer-section">
+                <h3>Services</h3>
+                <p>🍽️ Dine-In Experience</p>
+                <p>🥤 Takeaway Orders</p>
+                <p>🎉 Coffee Catering</p>
+                <p>🎊 Private Events</p>
+                <p>☕ Coffee Beans Retail</p>
+                <p>📚 Coffee Workshops</p>
+            </div>
+            <div class="footer-section">
+                <h3>Newsletter</h3>
+                <p>Subscribe to get updates on new blends, special offers, and café events.</p>
+                <p>Be the first to know about our seasonal specials!</p>
+                <div class="newsletter-form">
+                    <input type="email" placeholder="Enter your email" id="newsletterEmail">
+                    <button onclick="subscribeNewsletter()">Subscribe</button>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 Café Artisan. All rights reserved. | Designed with ❤️ for coffee lovers</p>
+        </div>
+    </footer>
+
+    <!-- Notification Element -->
+    <div class="notification" id="notification"></div>
+
+    <script>
+        // HIDE LOADING SCREEN
+        setTimeout(function() {
+            document.getElementById('loading').classList.add('hidden');
+        }, 100);
+
+        // NOTIFICATION FUNCTION (for gallery)
+        function showNotification(message) {
+            var notification = document.getElementById('notification');
+            if (notification) {
+                notification.textContent = message;
+                notification.classList.add('show');
+
+                setTimeout(function() {
+                    notification.classList.remove('show');
+                }, 3000);
+            }
+        }
+
+        // CONTACT FORM
+        document.addEventListener('DOMContentLoaded', function() {
+            var contactForm = document.getElementById('contactForm');
+            if (contactForm) {
+                contactForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    var name = document.getElementById('name').value;
+                    showNotification('Thank you ' + name + '! We will get back to you within 24 hours.');
+                    this.reset();
+                });
+            }
+        });
+
+        // NEWSLETTER
+        function subscribeNewsletter() {
+            var email = document.getElementById('newsletterEmail');
+            if (email && email.value) {
+                showNotification('Thank you for subscribing! Welcome to the Café Artisan family.');
+                email.value = '';
+            } else {
+                showNotification('Please enter a valid email address.');
+            }
+        }
+
+        // SMOOTH SCROLLING
+        document.addEventListener('DOMContentLoaded', function() {
+            var scrollLinks = document.querySelectorAll('a[href^="#"]');
+            scrollLinks.forEach(function(anchor) {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    var target = document.querySelector(this.getAttribute('href'));
+                    if (target) {
+                        target.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'start'
+                        });
+                    }
+                });
+            });
+        });
+
+        // MOBILE DETECTION
+        function checkMobile() {
+            if (window.innerWidth <= 768) {
+                document.getElementById('mobileOverlay').style.display = 'flex';
+            } else {
+                document.getElementById('mobileOverlay').style.display = 'none';
+            }
+        }
+
+        checkMobile();
+        window.addEventListener('resize', checkMobile);
+
+        console.log('✅ Café Artisan - Complete website with FIXED CSS-only working menu!');
+    </script>
+</body>
+</html>
